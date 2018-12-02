@@ -24,7 +24,7 @@
 	conn = DriverManager.getConnection(url, user, pass);
 %>
  <%
- 	out.println("<h2>" + request.getParameter("user_name") + " 구매 이력  </h2>");
+ 	out.println("<h2>" + request.getParameter("user_id") + " 구매 이력  </h2>");
  	
  %>
 

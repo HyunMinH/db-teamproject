@@ -25,7 +25,7 @@
 %>
 
  <%
- 	out.println("<h2>" + request.getParameter("user_name") + " 의 장바구니 </h2>");
+ 	out.println("<h2>" + request.getParameter("user_id") + " 의 장바구니 </h2>");
  	
  %>
 

@@ -24,20 +24,32 @@
 	conn = DriverManager.getConnection(url, user, pass);
 %>
  <script>
- function redirectNextPage(path, user_id){
-	
-	 response.sendRedirect("shopping_bag?user_id=" + user_id);
+ function redirectNextPage(action, user_id){
+	 if(action == 1){
+		document.form1.action = "order_history.jsp?user_id=" + user_id;
+	 }else if(action == 2){
+		 document.form1.action = "shopping_bag.jsp?user_id=" + user_id;
+	 }else if(action == 3){
+		 document.form1.action = "edit_info.jsp?user_id=" + user_id;
+	 }else if(action == 4){
+		 document.form1.action = "recommend.jsp?user_id=" + user_id;
+	 }
+	 
+	 document.form1.submit();
  }
  </script>
  	<h2>메인 페이지</h2>
  	<br>
  <%
  	String user_id = "id84";
- 	out.println("<button onclick=\"redirectNextPage(\"order_history.jsp\",\"" + user_id + "\");" + "\">" + "구매내역" + "</button>");
- 	out.println("<button onclick=\"redirectNextPage(\"shopping_bag.jsp\",\"" + user_id + "\");" + "\">" + "장바구니" + "</button>");
- 	out.println("<button onclick=\"redirectNextPage(\"edit_info.jsp\",\"" + user_id + "\");" + "\">" + "정보 수정" + "</button>");
- 	out.println("<button onclick=\"redirectNextPage(\"recommend.jsp\",\"" + user_id + "\");" + "\">" + "추천상품" + "</button>");
-	
+ 
+ 	out.println("<form name=\"form1\" method=\"POST\">");
+ 	out.println("<input type=\"button\" value=\"구매내역\" onclick=\"redirectNextPage(1,'" + user_id + "')\"/>");
+ 	out.println("<input type=\"button\" value=\"장바구니\" onclick=\"redirectNextPage(2,'" + user_id + "')\"/>");
+ 	out.println("<input type=\"button\" value=\"정보 수정\" onclick=\"redirectNextPage(3,'" + user_id + "')\"/>");
+ 	out.println("<input type=\"button\" value=\"추천상품\" onclick=\"redirectNextPage(4,'" + user_id + "')\"/>");
+ 	out.println("</form>");
+
  %>
  	<br>
  

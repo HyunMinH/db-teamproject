@@ -24,7 +24,7 @@
 	conn = DriverManager.getConnection(url, user, pass);
 %>
  <%
- 	out.println("<h2>" + request.getParameter("user_name") + " 회원 정보 수정  </h2>");
+ 	out.println("<h2>" + request.getParameter("user_id") + " 회원 정보 수정  </h2>");
  	
  %>
 

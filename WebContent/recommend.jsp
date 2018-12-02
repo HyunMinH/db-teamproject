@@ -25,7 +25,7 @@
 %>
 
  <%
- 	out.println("<h2>" + request.getParameter("user_name") + " 에게 상품을 추천합니다.  </h2>");
+ 	out.println("<h2>" + request.getParameter("user_id") + " 에게 상품을 추천합니다.  </h2>");
  	
  %>
 
