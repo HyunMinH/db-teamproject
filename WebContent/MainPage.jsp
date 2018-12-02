@@ -5,6 +5,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+<script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+
 <title>Insert title here</title>
 </head>
 <body>
@@ -51,23 +54,77 @@
  	out.println("</form>");
 
  %>
- 	<br>
- 
+ <br>
+ 	
+ <script>
+$(document).ready(function(){
+	$('#large_category').on('change', function() {	
+		let selector = $(this).val();
+		console.log(selector);
+		$("#small_category option").each(function(item){
+			console.log($(this));
+			if ($(this).data("tag") != selector){
+				$(this).hide() ; 
+			}else{
+				$(this).show();
+			}
+		});
+		
+		
+		$("#small_category option:not([hidden])").filter(
+				function(){ return $(this).data("tag") == selector}
+				).first().prop('selected',true);
+		//$("#small_category").val(#small_category option:not([hidden])).prop("selected", true);
+		//$("#small_category").show();
+	});	
+});
+ </script>
 
 <%
-/*
-	String query = "select * "
-		+ " from retailer"
-		+ " where name='" + request.getParameter("retailer_name") + "'";
+
+	String query = "select large_category, count(*) "
+		+ " from category group by large_category";
 
 	pstmt = conn.prepareStatement(query);
 	rs = pstmt.executeQuery();
 	
-	rs.next();
-	String retailer_id = rs.getString(3);
-	pstmt.close();
-	*/
+	out.println("<form action=\"manage.jsp\" method=\"POST\">");
+	out.println("Large Category : <select id=\"large_category\" name=\"large_category\">");
 	
+	out.print("<option value=\"default\">---selected---</option>");
+	while(rs.next()){
+		out.print("<option value=\"");
+		out.print(rs.getString(1)+"\">");
+		out.print(rs.getString(1));
+		out.println("</option>  ");
+	}
+	out.println("</select>");
+
+	pstmt.close();
+%>
+
+<%
+
+	query = "select * "
+		+ " from category";
+
+	pstmt = conn.prepareStatement(query);
+	rs = pstmt.executeQuery();
+	
+	out.println("Small Category : <select id=\"small_category\" name=\"small category\">");
+	
+	while(rs.next()){
+		out.print("<option value=\"");
+		out.print(rs.getString(4)+"\"  data-tag=\"" + rs.getString(3) +"\" >");
+		out.print(rs.getString(4));
+		out.println("</option>  ");
+	}
+	out.println("</select>");
+	
+	out.println("<input type=\"submit\" />");
+	out.println("</form>");
+
+	pstmt.close();
 %>
 
 <% 
