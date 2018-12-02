@@ -23,24 +23,11 @@
 	Class.forName("com.mysql.jdbc.Driver");
 	conn = DriverManager.getConnection(url, user, pass);
 %>
- <script>
- function redirectNextPage(path, user_id){
-	
-	 response.sendRedirect("shopping_bag?user_id=" + user_id);
- }
- </script>
- 	<h2>메인 페이지</h2>
- 	<br>
  <%
- 	String user_id = "id84";
- 	out.println("<button onclick=\"redirectNextPage(\"order_history.jsp\",\"" + user_id + "\");" + "\">" + "구매내역" + "</button>");
- 	out.println("<button onclick=\"redirectNextPage(\"shopping_bag.jsp\",\"" + user_id + "\");" + "\">" + "장바구니" + "</button>");
- 	out.println("<button onclick=\"redirectNextPage(\"edit_info.jsp\",\"" + user_id + "\");" + "\">" + "정보 수정" + "</button>");
- 	out.println("<button onclick=\"redirectNextPage(\"recommend.jsp\",\"" + user_id + "\");" + "\">" + "추천상품" + "</button>");
-	
+ 	out.println("<h2>" + request.getParameter("user_name") + " 구매 이력  </h2>");
+ 	
  %>
- 	<br>
- 
+
 
 <%
 /*
