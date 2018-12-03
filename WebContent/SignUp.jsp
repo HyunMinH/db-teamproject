@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
 <%@ page language="java" import="java.text.*,java.sql.*" %>
+<%@ page import="a.Member" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -40,7 +41,7 @@
 	rs.next();
 	if(rs.getString(1).equals("0"))
 	{
-		/* System.out.println(request.getParameter("new_id"));
+		System.out.println(request.getParameter("new_id"));
 		System.out.println(request.getParameter("new_password"));
 		System.out.println(request.getParameter("new_first_name"));
 		System.out.println(request.getParameter("new_last_name"));
@@ -49,7 +50,7 @@
 		System.out.println(request.getParameter("new_job"));
 		System.out.println(request.getParameter("new_sex"));
 		System.out.println(request.getParameter("new_phone_number"));
-		System.out.println(request.getParameter("new_email")); */
+		System.out.println(request.getParameter("new_email"));
 		
 		Member m = new Member();
 		
@@ -63,6 +64,7 @@
  		m.job = request.getParameter("new_job");
 		m.sex = request.getParameter("new_phone_number");
 		m.email = request.getParameter("new_email");
+		
 		
 		
 	}
