@@ -46,7 +46,7 @@
 	if(loginSuccess == true)
 	{
 		out.println("Login succedded");
-		response.sendRedirect("example.jsp?id=" + id);
+		response.sendRedirect("MainPage.jsp?id=" + id);
 	}
 	
 	else

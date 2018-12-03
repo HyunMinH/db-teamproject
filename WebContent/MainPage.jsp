@@ -44,8 +44,8 @@
  	<h2>메인 페이지</h2>
  	<br>
  <%
- 	String user_id = "id1";
- 	//String user_id = request.getParameter("id");
+ 	//String user_id = "id1";
+ 	String user_id = request.getParameter("id");
  
  	out.println("<form name=\"form1\" method=\"POST\">");
  	out.println("<input type=\"button\" value=\"구매내역\" onclick=\"redirectNextPage(1,'" + user_id + "')\"/>");
