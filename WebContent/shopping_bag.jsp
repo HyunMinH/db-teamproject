@@ -31,22 +31,37 @@
 
 
 <%
-/*
-	String query = "select * "
-		+ " from retailer"
-		+ " where name='" + request.getParameter("retailer_name") + "'";
+
+	String query = "select name, item_num, price"
+		+ " from (shopping_bag natural join contained) natural join item"
+		+ " where user_id='" + request.getParameter("user_id") + "'";
+
+	
 
 	pstmt = conn.prepareStatement(query);
 	rs = pstmt.executeQuery();
 	
-	rs.next();
-	String retailer_id = rs.getString(3);
-	pstmt.close();
-	*/
 	
-%>
-
-<% 
+	out.println("<table border=\"1\">");
+	ResultSetMetaData rsmd = rs.getMetaData();
+	int cnt = rsmd.getColumnCount();
+	
+	out.println("<th>"+ "  상품 이름  " +"</th>");
+	out.println("<th>"+ "  구매 갯수  " +"</th>");
+	out.println("<th>"+ "  개당 가격  " +"</th>");
+	
+	while(rs.next()){
+		out.println("<tr>");
+		out.println("<td>"+rs.getString(1)+"</td>");
+		out.println("<td>"+rs.getString(2)+"</td>");
+		out.println("<td>"+rs.getString(3)+"</td>");
+		out.println("</tr>");
+	}
+	
+	out.println("</table>");
+	
+	
+	pstmt.close();
 	
 	
 %>
