@@ -27,7 +27,7 @@
 	conn = DriverManager.getConnection(url, user, pass);
 %>
 
- 	<h2>상품 구매</h2>
+ 	<h2>상품 리스트</h2>
  	<br>
 
 <%
@@ -41,38 +41,49 @@
 	
 	rs.next();
 	String category_id = rs.getString(1);
+	
+	out.println("<h4>" + request.getParameter("large_category") + " > " + request.getParameter("middle_category") + "</h4>");
+	System.out.println(category_id);
 %>
 
+ <script>
+ function redirectProductDetail(product_id){
+	 document.form1.action = "product_detail.jsp?product_id=" + product_id;
+	 document.form1.submit();
+ }
+ </script>
+
 <%
-	query = "SELECT * "
-		+ " from category "
-	+ " where large_category='" + request.getParameter("large_category")  + "'"
-	+ " and small_category='" + request.getParameter("small_category") + "'";
+	query = "SELECT name, price, product_id "
+		+ " from item "
+		+ " where category_id='" + category_id + "'";
 	
 	System.out.println(query);
 	pstmt = conn.prepareStatement(query);
 	rs = pstmt.executeQuery();
 	
-	out.println("<form action = \"add_product.jsp\" method=\"POST\">");
+	out.println("<form name=\"form1\" method=\"POST\">");
 	
 	out.println("<table border=\"1\">");
 	ResultSetMetaData rsmd = rs.getMetaData();
 	int cnt = rsmd.getColumnCount();
 	
 	out.println("<th>"+ "  이름  " +"</th>");
-	out.println("<th>"+ "  재고  " +"</th>");
-	out.println("<th>"+ "  재고 증가량  " +"</th>");
+	out.println("<th>"+ "  가격  " +"</th>");
+	out.println("<th>"+ "  상품 상세 정보 보러 가기  " +"</th>");
+	//out.println("<th>"+ "  장바구니에 담을 수  " +"</th>");
 	
 	while(rs.next()){
 		out.println("<tr>");
-		out.println("<td>"+rs.getString(5)+"</td>");
-		out.println("<td>"+rs.getString(3)+"</td>");
-		out.println("<td>" + "<input type=\"text\"" + "name=\"" + rs.getString(1) +  "\"" + "/>" + "</td>");
+		out.println("<td>"+rs.getString(1)+"</td>");
+		out.println("<td>"+rs.getString(2)+"</td>");
+		out.println("<input type=\"button\" value=\"구매내역\" onclick=\"redirectNextPage(\"" + rs.getString(3) + "\")> 상세정보 보기 <\"/>");
+		//out.println("<td>" + "<input type=\"text\"" + "name=\"" + rs.getString(1) +  "\"" + "/>" + "</td>");
 		out.println("</tr>");
 	}
 	
 	out.println("</table>");
-	
+	//out.println("<input type=\"submit\" value=\"구매하기\"/>");
 	out.println("</form>");
 	pstmt.close();
 %>
