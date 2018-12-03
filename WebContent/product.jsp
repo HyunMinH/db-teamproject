@@ -77,7 +77,7 @@
 		out.println("<tr>");
 		out.println("<td>"+rs.getString(1)+"</td>");
 		out.println("<td>"+rs.getString(2)+"</td>");
-		out.println("<input type=\"button\" value=\"구매내역\" onclick=\"redirectNextPage(\"" + rs.getString(3) + "\")> 상세정보 보기 <\"/>");
+		out.println("<td><input type=\"button\" value=\"상세정보\" onclick=\"redirectProductDetail('" + rs.getString(3) + "')\"/></td>");
 		//out.println("<td>" + "<input type=\"text\"" + "name=\"" + rs.getString(1) +  "\"" + "/>" + "</td>");
 		out.println("</tr>");
 	}
