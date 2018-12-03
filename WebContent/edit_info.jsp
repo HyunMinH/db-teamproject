@@ -30,23 +30,45 @@
 
 
 <%
-/*
-	String query = "select * "
-		+ " from retailer"
-		+ " where name='" + request.getParameter("retailer_name") + "'";
+
+	String query = "select address"
+		+ " from retailer group by retailer.address";
+
+	
 
 	pstmt = conn.prepareStatement(query);
 	rs = pstmt.executeQuery();
 	
-	rs.next();
-	String retailer_id = rs.getString(3);
+	out.println("<form action=\"edited.jsp\" method=\"POST\"");
+	
+	out.println("password : <input type=\"text\" name=\"pw\"/>");
+	
+	out.println("first_name : <input type=\"text\" name=\"first_name\"/>");
+	
+	out.println("last_name : <input type=\"text\" name=\"last_name\"/>");
+	
+	
+	out.println("address : <select name=\"address\"");
+	while(rs.next()){
+		out.println("   <option value=\""+ rs.getString(1) +"\">"+ rs.getString(1) +"</option>");
+	}
+	out.println("</select>");
+	
+	out.println("age : <input type=\"text\" name=\"age\"/>");
+	
+	out.println("sex : <select name=\"sex\"/>");
+	out.println("<option value=F>F</option>");
+	out.println("<option value=M>M</option>");
+	out.println("</select>");
+	
+	out.println("phone_number : <input type=\"text\" name=\"phone_number\"/>");
+	
+	out.println("email : <input type=\"text\" name=\"email\"/>");
+	
+	out.println("<input type=\"submit\" value=\"수정하기\"");
+	out.println("</form>");
+	
 	pstmt.close();
-	*/
-	
-%>
-
-<% 
-	
 	
 %>
 
