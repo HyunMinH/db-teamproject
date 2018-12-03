@@ -61,7 +61,7 @@ $(document).ready(function(){
 	$('#large_category').on('change', function() {	
 		let selector = $(this).val();
 		console.log(selector);
-		$("#small_category option").each(function(item){
+		$("#middle_category option").each(function(item){
 			console.log($(this));
 			if ($(this).data("tag") != selector){
 				$(this).hide() ; 
@@ -71,7 +71,7 @@ $(document).ready(function(){
 		});
 		
 		
-		$("#small_category option:not([hidden])").filter(
+		$("#middle_category option:not([hidden])").filter(
 				function(){ return $(this).data("tag") == selector}
 				).first().prop('selected',true);
 		//$("#small_category").val(#small_category option:not([hidden])).prop("selected", true);
@@ -88,7 +88,7 @@ $(document).ready(function(){
 	pstmt = conn.prepareStatement(query);
 	rs = pstmt.executeQuery();
 	
-	out.println("<form action=\"manage.jsp\" method=\"POST\">");
+	out.println("<form action=\"product.jsp\" method=\"POST\">");
 	out.println("Large Category : <select id=\"large_category\" name=\"large_category\">");
 	
 	out.print("<option value=\"default\">---selected---</option>");
@@ -111,7 +111,7 @@ $(document).ready(function(){
 	pstmt = conn.prepareStatement(query);
 	rs = pstmt.executeQuery();
 	
-	out.println("Small Category : <select id=\"small_category\" name=\"small category\">");
+	out.println("middle_category : <select id=\"middle_category\" name=\"middle_category\">");
 	
 	while(rs.next()){
 		out.print("<option value=\"");
