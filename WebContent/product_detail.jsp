@@ -30,6 +30,8 @@
 
 
 <%
+
+
 /*
 	String query = "select * "
 		+ " from retailer"
