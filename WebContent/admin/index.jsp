@@ -47,6 +47,7 @@
 	
 	pstmt.close();
 %>
+		<input type="button" onclick="location.href='../LogOut.jsp'" value = "Log out"/>
 
 
 <%

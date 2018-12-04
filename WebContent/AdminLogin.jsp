@@ -49,7 +49,7 @@
 			out.println("Admin login succedded");
 			
 			session.setAttribute("id", id);                 // 세션에 "id" 이름으로 id 등록
-			response.sendRedirect("admin/index.html");              
+			response.sendRedirect("admin/index.jsp");              
 		}
 			
 	}
