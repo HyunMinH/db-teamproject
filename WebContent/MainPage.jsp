@@ -127,19 +127,26 @@ $(document).ready(function(){
 %>
 
  <script>
- function searchProductWithName(){
+ function searchProductWithName(user_id){
 	 var product_name = document.getElementById('product_name_input').value
 	 console.log(product_name);
-	 document.form3.action = "product_detail.jsp?product_name=" + product_name;
- 	 document.form3.submit();
+	 console.log(user_id);
+	 document.form3.action = "product_detail.jsp?customer_id=" + user_id + "&product_id=" + product_name;
+	  document.form3.submit();
  }
  </script>
 
+	<form name="form3" action="product_detail.jsp?user_id=<%=user_id%>" method="POST">
+		검색할 상품 이름 : <input id="product_name_input" type="text" name="product_name"/>
+		<input type="submit"  value="검색" />
+	</form>
 <% 
+/*
 	out.println("<form name=\"form3\" action=\"POST\"/>");
 	out.println("검색할 상품 이름 : <input id=\"product_name_input\" type=\"text\" name=\"product_name\"/>");
-	out.println("<input type=\"button\" onclick=\"searchProductWithName()\" value=\"검색\" />");
+	out.println("<input type=\"button\" onclick=\"searchProductWithName('" + user_id + "')\" value=\"검색\" />");
 	out.println("</form>");
+	*/
 %>
 
 
