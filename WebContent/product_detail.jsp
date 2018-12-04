@@ -26,6 +26,9 @@
  <%
  	out.println("<h2>" + request.getParameter("product_name") + " 상세 정보 </h2>");
  	
+ 	String user_id = request.getParameter("user_id");
+ 	
+ 	System.out.println(user_id);
  %>
 
 
@@ -93,25 +96,26 @@
 	out.println("<h4>" + "제조자"+" : " + rs.getString(17) + "<h4/>");
 
 	String product_id = rs.getString(2);
-%>
+	%>
 
- 
-<form action = "product_detail_handling.jsp?product_id=<%=product_id%>">
-		<h2>주문수량을 선택하세요 </h2>
+	  
+ 		 <form action = "product_detail_handling.jsp?product_id=<%=product_id%>" method="POST">
+	 		<h2>주문수량을 선택하세요 </h2>
+	
+	  <h4>주문수량</h4>: <input type="number" name = "num" />
+	 		<input type="submit" value = "확인" />
+	 
+	 	<br/>
+	 </form>
 
- <h4>주문수량</h4>: <Input type="number" name = num>
-
-	<br/>
-</form>
-
-<% 
+	 <% 
 
 
 
-%>
+	 %>
 
-<%
-	conn.close();
+	 <%
+	 	conn.close();
 %>
 
 </body>

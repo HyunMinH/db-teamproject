@@ -26,6 +26,7 @@
 
 <%
  	int numOfProduct = Integer.parseInt(request.getParameter("num"));
+	
 	System.out.println(numOfProduct);
 	String query;
 	
