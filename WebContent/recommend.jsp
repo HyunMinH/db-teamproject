@@ -25,11 +25,13 @@
 %>
 
  <%
- 	out.println("<h2>" + (String)session.getAttribute("id") + " 에게 상품을 추천합니다.  </h2>");
- 	
- %>
 
+%>
 
+<h2> 신규 고객 상품 추천 서비스!</h2>
+<h4> 가장 인기있는 세 품목을 홍보합니다!</h4>
+
+<br>
 <%
 /*
 	String query = "select * "
@@ -47,8 +49,66 @@
 %>
 
 <% 
+	String query = "select product_id from included group by product_id order by sum(included_num) desc;";
+
+	pstmt = conn.prepareStatement(query);
+	rs = pstmt.executeQuery();
 	
+	String product_id;
+	int included_num;
 	
+	String r1,r2,r3;
+	String n1,n2,n3;
+	
+	rs.next();
+
+	r1 = rs.getString(1);
+	rs.next();
+
+	r2 = rs.getString(1);
+	rs.next();
+
+	r3 = rs.getString(1);
+
+	query = "select name from item where product_id = '"+r1+"'";
+	
+	pstmt = conn.prepareStatement(query);
+	rs = pstmt.executeQuery();
+	rs.next();
+	
+	n1 = rs.getString(1);	
+	
+	out.println("<h4>구매율 1등 상품 : " + n1+ "</h4>");
+	
+	out.println("<br>");
+	
+	query = "select name from item where product_id = '"+r2+"'";
+	
+	pstmt = conn.prepareStatement(query);
+	rs = pstmt.executeQuery();
+	rs.next();
+	
+	n2 = rs.getString(1);	
+	
+	out.println("<h4>구매율 2등 상품: " + n2+ "</h4>");
+		
+	out.println("<br>");
+
+	
+	query = "select name from item where product_id = '"+r3+"'";
+	
+	pstmt = conn.prepareStatement(query);
+	rs = pstmt.executeQuery();
+	rs.next();
+	
+	n3 = rs.getString(1);	
+	
+	out.println("<h4>구매율 3등 상품: " + n3+ "</h4>");
+		
+	out.println("<br>");
+
+		
+		
 %>
 
 
