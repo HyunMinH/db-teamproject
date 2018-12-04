@@ -26,7 +26,7 @@
  <%
  	out.println("<h2>" + request.getParameter("product_name") + " 상세 정보 </h2>");
  	
- 	String user_id = request.getParameter("user_id");
+ 	String user_id = (String)session.getAttribute("id");
  	
  	System.out.println(user_id);
  %>
@@ -74,6 +74,8 @@
 	
 	ResultSetMetaData rsmd = rs.getMetaData();
 	int cnt = rsmd.getColumnCount();
+	
+	System.out.println("user id  ="  + user_id);
 		
 	rs.next();
 	
@@ -99,7 +101,7 @@
 	%>
 
 	  
- 		 <form action = "product_detail_handling.jsp?product_id=<%=product_id%>" method="POST">
+ 		 <form action = "product_detail_handling.jsp?product_id=<%=product_id%>&user_id=<%=(String)session.getAttribute("id")%>" method="POST">
 	 		<h2>주문수량을 선택하세요 </h2>
 	
 	  <h4>주문수량</h4>: <input type="number" name = "num" />
@@ -109,8 +111,6 @@
 	 </form>
 
 	 <% 
-
-
 
 	 %>
 

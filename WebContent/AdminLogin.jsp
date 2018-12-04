@@ -26,37 +26,35 @@
 
 <%
 	String id = request.getParameter("id");
-	String idQ = "select password from customer where id = "
-			+"'" + id + "'";
 	
 	boolean loginSuccess = false;
 
-	pstmt = conn.prepareStatement(idQ);
+	String query = "select pw from admin where id = "
+			+ "'" + id + "'";
+	
+	pstmt = conn.prepareStatement(query);
 	rs = pstmt.executeQuery();
 	
-	if (rs.next())
+	if(rs.next())
 	{
+		String input = rs.getString(1);
 		
-		String password = rs.getString(1);
-
-		if(password.equals(request.getParameter("pw")))
+		if(input.equals(request.getParameter("pw")))
 		{
 			loginSuccess = true;
 		}
 		
-		
 		if(loginSuccess == true)
 		{
-			out.println("Login succedded");
-/* 			response.sendRedirect("MainPage.jsp?id=" + id);
- */			
-			session.setAttribute("id", id);                 // 세션에 "id" 이름으로 id 등록
-			response.sendRedirect("MainPage.jsp");               // 로그인 성공 메인페이지 이동
+			out.println("Admin login succedded");
 			
+			session.setAttribute("id", id);                 // 세션에 "id" 이름으로 id 등록
+			response.sendRedirect("admin/index.html");              
 		}
+			
 	}
 	
-	String query = "select count(*) from customer where id = '"
+	query = "select count(*) from admin where id = '"
 			+ id
 			+ "'";
 	
@@ -69,19 +67,14 @@
 	
 	if(rs.getString(1).equals("0"))
 	{
-		out.println("<script>alert('There is no matching ID');</script>");
+		out.println("<script>alert('There is no matching admin ID');</script>");
 		
 	}
 	
 	else
 	{
-		out.println("<script>alert('Please check your password');</script>");
+		out.println("<script>alert('Please check admin password');</script>");
 	}
-
-%>
-
-<%
-
 %>
 </body>
 </html>
