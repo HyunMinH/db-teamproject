@@ -32,7 +32,7 @@
 
 <%
 
-	String query = "select name, item_num, price"
+	String query = "select name, item_num, price, product_id"
 		+ " from (shopping_bag natural join contained) natural join item"
 		+ " where user_id='" + request.getParameter("user_id") + "'";
 
@@ -50,24 +50,45 @@
 	out.println("<th>"+ "  구매 갯수  " +"</th>");
 	out.println("<th>"+ "  개당 가격  " +"</th>");
 	
+	String product_list = "";
 	while(rs.next()){
 		out.println("<tr>");
 		out.println("<td>"+rs.getString(1)+"</td>");
 		out.println("<td>"+rs.getString(2)+"</td>");
 		out.println("<td>"+rs.getString(3)+"</td>");
+		product_list += "&product_" + rs.getString(4) + "=" + rs.getString(2);
 		out.println("</tr>");
 	}
 	
 	out.println("</table>");
 	
-	out.println("<form action=\"order.jsp?" + request.getParameter("user_id") + "\" action=\"POST\" />");
-	out.println("<input type=\"submit\" value=\"구입하기\"/>");
-	out.println("</form>");
+	
+	System.out.println(product_list);
 	
 	pstmt.close();
 	
 	
 %>
+
+<%
+	query = "select address"
+		+ " from customer "
+		+ " where id='" + request.getParameter("user_id") + "'";
+
+
+	pstmt = conn.prepareStatement(query);
+	rs = pstmt.executeQuery();
+	
+	rs.next();
+	String shipping_destination = rs.getString(1);
+	
+	pstmt.close();
+%>
+
+<form action="order.jsp?user_id=<%=request.getParameter("user_id")%><%=product_list%>&shipping_destination=<%=shipping_destination%>" method="POST">
+	<input type="submit" value="구입하기"/>
+</form>
+
 
 <%
 	

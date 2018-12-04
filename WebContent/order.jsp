@@ -25,13 +25,13 @@
 	ResultSet rs;
 	Class.forName("com.mysql.jdbc.Driver");
 	conn = DriverManager.getConnection(url, user, pass);
+	conn.setAutoCommit(false);
 %>
 
  <%
  	out.println("<h2>" + " 구매하기~ </h2>");
  	
  %>
-
 
 <%
 
@@ -47,15 +47,16 @@
 			String product_id = key.substring(key.indexOf("product_") + "product_".length());
 			String product_num = request.getParameter(key);
 			product_list.put(product_id, product_num);
+			
+			System.out.println(product_id + " : " + product_num);
 		}
 	}
 	
 	
 	
-	
 	/*	마지막 order_number를 가져	*/
 	String query = "select order_number"
-			+ "from order_history order by cast(order_number as unsigned ) desc";
+			+ " from order_history order by cast(order_number as unsigned ) desc";
 	
 	pstmt = conn.prepareStatement(query);
 	rs = pstmt.executeQuery();
@@ -66,18 +67,21 @@
 	pstmt.close();
 	
 	/*	order_history 생	성	*/
-	query = "insert into order_history values('" +  request.getParameter("customer_id")
+	query = "insert into order_history values('" +  request.getParameter("user_id")
 	+ "', '" + request.getParameter("shipping_destination") + "', '"
-	+ new SimpleDateFormat("yyyy-MM-dd").format(new Date()) + "', " 
-	+ last_order_number + 1 + "')";
+	+ new SimpleDateFormat("yyyy-MM-dd").format(new Date()) + "', '" 
+	+ (Integer.parseInt(last_order_number) + 1) + "')";
+	System.out.println(query);
 
 	pstmt = conn.prepareStatement(query);
-	rs = pstmt.executeQuery();
+	int rs_update = pstmt.executeUpdate(query);
+	System.out.println(rs_update);
 	
+	conn.commit();
 	pstmt.close();
 	
 	/*	address를 가지고 retailer의 id를 가져오기 	*/
-	query = "select retailer_id from retailer where address='seoul'";
+	query = "select retailer_id from retailer where address='" + request.getParameter("shipping_destination") + "'";
 	pstmt = conn.prepareStatement(query);
 	rs = pstmt.executeQuery();
 	
@@ -88,7 +92,7 @@
 	
 	/*	retailer의 stock들을 가져오기 	*/
 	String product_list_str = "(";
-	Iterator<String> iter = product_list.values().iterator();
+	Iterator<String> iter = product_list.keySet().iterator();
 	while(iter.hasNext()){
 		product_list_str += "'" + iter.next() + "'";
 		
@@ -99,40 +103,74 @@
 	
 	System.out.println(product_list_str);
 	
-	query = "select stock from product_id, be_in_stock where retailer_id='" + retailer_id + "'"
-			+ "and product id in " + product_list_str;
-	pstmt = conn.prepareStatement(query);
-	rs = pstmt.executeQuery();
-	
 	HashMap<String,String> retailer_product_list = new HashMap<String, String>();
-	while(rs.next()){
-		retailer_product_list.put(rs.getString(1), rs.getString(2));
+	if(product_list_str.equals("()") == false){
+		query = "select product_id, stock from be_in_stock where retailer_id='" + retailer_id + "'"
+				+ " and product_id in " + product_list_str;
+		System.out.println(query);
+		
+		pstmt = conn.prepareStatement(query);
+		rs = pstmt.executeQuery();
+
+		while(rs.next()){
+			retailer_product_list.put(rs.getString(1), rs.getString(2));
+		}
+		pstmt.close();
 	}
-	pstmt.close();
 	
 	/*	stock들이 다 있는지 검사 	*/
 	boolean can_buy = true;
-	for(iter = product_list.values().iterator(); iter.hasNext();){
+	if(product_list.keySet().size() == 0)
+		can_buy = false;
+	for(iter = product_list.keySet().iterator(); iter.hasNext();){
 		String product_id = iter.next();
-		int product_num = Integer.parseInt(product_list.get(product_id));
-		int retailer_product_num = Integer.parseInt(retailer_product_list.get(product_id));
+		System.out.println(product_id);
+		int product_buy_num = Integer.parseInt(product_list.get(product_id));
+		int retailer_product_num = -1;
+		if(retailer_product_list.containsKey(product_id))
+			retailer_product_num = Integer.parseInt(retailer_product_list.get(product_id));
 	
-		if(product_num <= retailer_product_num){
+		System.out.println(product_buy_num + " , " + retailer_product_num);
+		if(product_buy_num >= retailer_product_num){
 			can_buy = false;
-			return;
+			break;
 		}
 	}
+
 	
 	/*	만약 구입할 수 없다면 있다면 	*/
+	try{
+		if(can_buy == false){
+			conn.close();
+			response.sendRedirect("order_fail.jsp?user_id=" + request.getParameter("customer_id"));
+		}else{
+			
+			for(iter = product_list.keySet().iterator();iter.hasNext();){
+				String product_id = iter.next();
+				query = "update be_in_stock set stock=stock-" + product_list.get(product_id)
+				+ " where product_id='" + product_id +"'";
+				System.out.println(query);
+				pstmt = conn.prepareStatement(query);
+				pstmt.executeUpdate();
+				conn.commit();
+			}
+			
+			query = "delete from contained where user_id='" + request.getParameter("user_id") + "'";
+			System.out.println(query);
+			pstmt = conn.prepareStatement(query);
+			pstmt.executeUpdate();
+			
+			conn.commit();
+			pstmt.close();
+			conn.close();
+			response.sendRedirect("order_success.jsp?user_id=" + request.getParameter("customer_id"));
+		}
+	}catch(SQLException e){
+		e.printStackTrace();
+		conn.close();
+	}
 %>
 
-<%
-	
-%>
-
-<%
-	conn.close();
-%>
 
 </body>
 </html>
