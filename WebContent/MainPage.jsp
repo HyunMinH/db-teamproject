@@ -75,8 +75,6 @@ $(document).ready(function(){
 		$("#middle_category option:not([hidden])").filter(
 				function(){ return $(this).data("tag") == selector}
 				).first().prop('selected',true);
-		//$("#small_category").val(#small_category option:not([hidden])).prop("selected", true);
-		//$("#small_category").show();
 	});	
 });
  </script>
@@ -128,9 +126,19 @@ $(document).ready(function(){
 	pstmt.close();
 %>
 
+ <script>
+ function searchProductWithName(){
+	 var product_name = document.getElementById('product_name_input').value
+	 document.form3.action = "product_detail.jsp?product_id=" + product_name;
+ 	 document.form3.submit();
+ }
+ </script>
+
 <% 
-	
-	
+	out.println("<form name=\"form3\" action=\"POST\"");
+	out.println("검색할 상품 이름 : <input id=\"product_name_input\" type=\"text\" name=\"product_name\"/>");
+	out.println("<input type=\"button\" onclick=\"searchProductWithName\"/>");
+	out.println("</form>");
 %>
 
 

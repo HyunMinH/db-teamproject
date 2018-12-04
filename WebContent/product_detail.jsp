@@ -24,7 +24,7 @@
 	conn = DriverManager.getConnection(url, user, pass);
 %>
  <%
- 	out.println("<h2>" + request.getParameter("product_id") + " 상세 정보 </h2>");
+ 	out.println("<h2>" + request.getParameter("product_name") + " 상세 정보 </h2>");
  	
  %>
 

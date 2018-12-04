@@ -47,8 +47,8 @@
 %>
 
  <script>
- function redirectProductDetail(product_id){
-	 document.form1.action = "product_detail.jsp?product_id=" + product_id;
+ function redirectProductDetail(product_name){
+	 document.form1.action = "product_detail.jsp?product_name=" + product_name;
 	 document.form1.submit();
  }
  </script>
@@ -77,7 +77,7 @@
 		out.println("<tr>");
 		out.println("<td>"+rs.getString(1)+"</td>");
 		out.println("<td>"+rs.getString(2)+"</td>");
-		out.println("<td><input type=\"button\" value=\"상세정보\" onclick=\"redirectProductDetail('" + rs.getString(3) + "')\"/></td>");
+		out.println("<td><input type=\"button\" value=\"상세정보\" onclick=\"redirectProductDetail('" + rs.getString(1) + "')\"/></td>");
 		//out.println("<td>" + "<input type=\"text\"" + "name=\"" + rs.getString(1) +  "\"" + "/>" + "</td>");
 		out.println("</tr>");
 	}
