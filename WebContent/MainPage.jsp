@@ -64,7 +64,11 @@
  	out.println("<input type=\"button\" value=\"추천상품\" onclick=\"redirectNextPage(4,'" + user_id + "')\"/>");
  	out.println("</form>");
 
+ 	
  %>
+ 
+ <input type="button" onclick="location.href='LogOut.jsp'" value = "Log out"/>
+ 
  <br>
  	
  <script>
