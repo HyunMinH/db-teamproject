@@ -33,13 +33,10 @@
 
 
 <%
-
-
 /*
 	String query = "select * "
 		+ " from retailer"
 		+ " where name='" + request.getParameter("retailer_name") + "'";
-
 	pstmt = conn.prepareStatement(query);
 	rs = pstmt.executeQuery();
 	
@@ -66,38 +63,48 @@
 	| category_id 
 	| producer_id*/
 	
-	String query = "select * from item where name = '" + request.getParameter("product_name") + "';";
+	String product_id="";
 	
-	System.out.println(query);
-	pstmt = conn.prepareStatement(query);
-	rs = pstmt.executeQuery();
-	
-	ResultSetMetaData rsmd = rs.getMetaData();
-	int cnt = rsmd.getColumnCount();
-	
-	System.out.println("user id  ="  + user_id);
+	try{
+		String query = "select * from item where name = '" + request.getParameter("product_name") + "';";
 		
-	rs.next();
-	
-	out.println("<h4>" +  "가격" +" : " + rs.getString(1)+"원" +   "<h4/>");
-	out.println("<h4>" +  "등록번호"+" : " + rs.getString(2) + "<h4/>");
-	out.println("<h4>" +  "제품명"+" : " + rs.getString(3)  + "<h4/>");
-	out.println("<h4>" +  "중량"+" : " + rs.getString(4) +"g "+ "<h4/>");
-	out.println("<h4>" +  "부피"+" : " + rs.getString(5)+"mL"  +"<h4/>");
-	out.println("<h4>" + "원산지"+" : " + rs.getString(6)  + "<h4/>");
-	out.println("<h4>" + "유통기한"+" : " + rs.getString(7)+"까지"  +"<h4/>");
-	out.println("<h4>" + "칼로리"+" : " + rs.getString(8)+"kcal"  + "<h4/>");
-	out.println("<h4>" + "탄수화물"+" : " + rs.getString(9) +"g"  + "<h4/>");
-	out.println("<h4>" + "지방"+" : " + rs.getString(10) + "g" +"<h4/>");
-	out.println("<h4>" + "단백질"+" : " + rs.getString(11)+ "g" + "<h4/>");
-	out.println("<h4>" + "당류"+" : " + rs.getString(12)+ "g"  +"<h4/>");
-	out.println("<h4>" + "포화지방"+" : " + rs.getString(13)+ "g"  + "<h4/>");
-	out.println("<h4>" + "트랜스지방"+" : " + rs.getString(14) + "g" +"<h4/>");
-	out.println("<h4>" + "콜레스테롤"+" : " + rs.getString(15) + "g" +"<h4/>");
-	out.println("<h4>" + "카테고리"+" : " + rs.getString(16)+ " (대분류-소분류 순서)"  + "<h4/>" );
-	out.println("<h4>" + "제조자"+" : " + rs.getString(17) + "<h4/>");
-
-	String product_id = rs.getString(2);
+		System.out.println(query);
+		pstmt = conn.prepareStatement(query);
+		rs = pstmt.executeQuery();
+		
+		ResultSetMetaData rsmd = rs.getMetaData();
+		int cnt = rsmd.getColumnCount();
+		
+		System.out.println("user id  ="  + user_id);
+		
+		rs.next();
+		
+		out.println("<h4>" +  "가격" +" : " + rs.getString(1)+"원" +   "<h4/>");
+		out.println("<h4>" +  "등록번호"+" : " + rs.getString(2) + "<h4/>");
+		out.println("<h4>" +  "제품명"+" : " + rs.getString(3)  + "<h4/>");
+		out.println("<h4>" +  "중량"+" : " + rs.getString(4) +"g "+ "<h4/>");
+		out.println("<h4>" +  "부피"+" : " + rs.getString(5)+"mL"  +"<h4/>");
+		out.println("<h4>" + "원산지"+" : " + rs.getString(6)  + "<h4/>");
+		out.println("<h4>" + "유통기한"+" : " + rs.getString(7)+"까지"  +"<h4/>");
+		out.println("<h4>" + "칼로리"+" : " + rs.getString(8)+"kcal"  + "<h4/>");
+		out.println("<h4>" + "탄수화물"+" : " + rs.getString(9) +"g"  + "<h4/>");
+		out.println("<h4>" + "지방"+" : " + rs.getString(10) + "g" +"<h4/>");
+		out.println("<h4>" + "단백질"+" : " + rs.getString(11)+ "g" + "<h4/>");
+		out.println("<h4>" + "당류"+" : " + rs.getString(12)+ "g"  +"<h4/>");
+		out.println("<h4>" + "포화지방"+" : " + rs.getString(13)+ "g"  + "<h4/>");
+		out.println("<h4>" + "트랜스지방"+" : " + rs.getString(14) + "g" +"<h4/>");
+		out.println("<h4>" + "콜레스테롤"+" : " + rs.getString(15) + "g" +"<h4/>");
+		out.println("<h4>" + "카테고리"+" : " + rs.getString(16)+ " (대분류-소분류 순서)"  + "<h4/>" );
+		out.println("<h4>" + "제조자"+" : " + rs.getString(17) + "<h4/>");
+		product_id = rs.getString(2);
+		
+		pstmt.close();
+	}
+	catch(SQLException e){
+		conn.close();
+		e.printStackTrace();
+		response.sendRedirect("product_detail_fail.jsp");
+	}
 	%>
 
 	  
@@ -111,7 +118,6 @@
 	 </form>
 
 	 <% 
-
 	 %>
 
 	 <%
