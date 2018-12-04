@@ -175,6 +175,9 @@
 
 				pstmt.close();
 				conn.commit();
+				conn.close();
+				response.sendRedirect("order_success.jsp?user_id=" + (String) session.getAttribute("id"));
+			
 			} catch (SQLException e) {
 				if (conn != null) {
 					try {
@@ -183,10 +186,12 @@
 						e.printStackTrace();
 					}
 				}
+				
+				conn.close();
+				response.sendRedirect("order_fail.jsp?user_id=" + (String) session.getAttribute("id"));
+			
 			}
 
-			conn.close();
-			response.sendRedirect("order_fail.jsp?user_id=" + (String) session.getAttribute("id"));
 		}
 	%>
 
