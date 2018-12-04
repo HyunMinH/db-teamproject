@@ -8,5 +8,8 @@
 </head>
 <body>
 	<h2>order success!</h2>
+	<form action="MainPage.jsp" method="post">
+		<input type="submit" value="메인으로 가기"/>
+	</form>
 </body>
 </html>

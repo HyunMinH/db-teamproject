@@ -8,7 +8,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h2> 매출 보러가 </h2>
+	<h2> 매출 보러가기 </h2>
 	<br>
 	
 	

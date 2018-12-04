@@ -28,7 +28,9 @@
  	out.println("<h2>" + (String)session.getAttribute("id") + " 의 장바구니 </h2>");
  	
  %>
-
+<form action="MainPage.jsp" method="post">
+		<input type="submit" value="메인으로 가기"/>
+	</form>
 <form action="shopping_bag_delete.jsp" method="POST" >
 <%
 
