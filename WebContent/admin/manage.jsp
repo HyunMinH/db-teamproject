@@ -54,7 +54,7 @@
 	pstmt = conn.prepareStatement(query);
 	rs = pstmt.executeQuery();
 	
-	out.println("<form action = \"add_product.jsp\" method=\"POST\">");
+	out.println("<form action = \"stock_add.jsp?retailer_id=" + retailer_id +"\" method=\"POST\">");
 	
 	out.println("<table border=\"1\">");
 	ResultSetMetaData rsmd = rs.getMetaData();
@@ -68,12 +68,12 @@
 		out.println("<tr>");
 		out.println("<td>"+rs.getString(5)+"</td>");
 		out.println("<td>"+rs.getString(3)+"</td>");
-		out.println("<td>" + "<input type=\"text\"" + "name=\"" + rs.getString(1) +  "\"" + "/>" + "</td>");
+		out.println("<td>" + "<input type=\"text\"" + "name=\"product_" + rs.getString(1) +  "\"" + "/>" + "</td>");
 		out.println("</tr>");
 	}
 	
 	out.println("</table>");
-	
+	out.println("<input type=\"submit\" value=\"주문\" />");
 	out.println("</form>");
 	pstmt.close();
 	

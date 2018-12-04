@@ -66,20 +66,6 @@
 	
 	pstmt.close();
 	
-	/*	order_history 생	성	*/
-	query = "insert into order_history values('" +  request.getParameter("user_id")
-	+ "', '" + request.getParameter("shipping_destination") + "', '"
-	+ new SimpleDateFormat("yyyy-MM-dd").format(new Date()) + "', '" 
-	+ (Integer.parseInt(last_order_number) + 1) + "')";
-	System.out.println(query);
-
-	pstmt = conn.prepareStatement(query);
-	int rs_update = pstmt.executeUpdate(query);
-	System.out.println(rs_update);
-	
-	conn.commit();
-	pstmt.close();
-	
 	/*	address를 가지고 retailer의 id를 가져오기 	*/
 	query = "select retailer_id from retailer where address='" + request.getParameter("shipping_destination") + "'";
 	pstmt = conn.prepareStatement(query);
@@ -104,18 +90,24 @@
 	System.out.println(product_list_str);
 	
 	HashMap<String,String> retailer_product_list = new HashMap<String, String>();
-	if(product_list_str.equals("()") == false){
-		query = "select product_id, stock from be_in_stock where retailer_id='" + retailer_id + "'"
-				+ " and product_id in " + product_list_str;
-		System.out.println(query);
-		
-		pstmt = conn.prepareStatement(query);
-		rs = pstmt.executeQuery();
-
-		while(rs.next()){
-			retailer_product_list.put(rs.getString(1), rs.getString(2));
+	try{
+		if(product_list_str.equals("()") == false){
+			query = "select product_id, stock from be_in_stock where retailer_id='" + retailer_id + "'"
+					+ " and product_id in " + product_list_str;
+			System.out.println(query);
+			
+			pstmt = conn.prepareStatement(query);
+			rs = pstmt.executeQuery();
+	
+			while(rs.next()){
+				retailer_product_list.put(rs.getString(1), rs.getString(2));
+			}
+			pstmt.close();
 		}
-		pstmt.close();
+	}
+	catch(SQLException e){
+		conn.close();
+		e.printStackTrace();
 	}
 	
 	/*	stock들이 다 있는지 검사 	*/
@@ -144,7 +136,33 @@
 			conn.close();
 			response.sendRedirect("order_fail.jsp?user_id=" + request.getParameter("customer_id"));
 		}else{
+			/*	order_history 생	성	*/
+			query = "insert into order_history values('" +  request.getParameter("user_id")
+			+ "', '" + request.getParameter("shipping_destination") + "', '"
+			+ new SimpleDateFormat("yyyy-MM-dd").format(new Date()) + "', '" 
+			+ (Integer.parseInt(last_order_number) + 1) + "')";
+			System.out.println(query);
+		
+			pstmt = conn.prepareStatement(query);
+			int rs_update = pstmt.executeUpdate(query);
+			System.out.println(rs_update);
 			
+			conn.commit();
+			pstmt.close();
+			
+			/*	order_into 생성  	*/
+			Calendar c = Calendar.getInstance();
+			c.setTime(new Date());
+			c.add(Calendar.HOUR, 2);
+				
+			query = "insert into order_into values('" + (Integer.parseInt(last_order_number) + 1) + "', '" + retailer_id + "',' " + 
+					new SimpleDateFormat("yyyy-MM-dd").format(c.getTime()) + "')";
+			pstmt = conn.prepareStatement(query);
+			pstmt.executeUpdate();
+			pstmt.close();
+			conn.commit();
+			
+			/*	retailer의 stock을 줄이고 included의 included 생성 	*/
 			for(iter = product_list.keySet().iterator();iter.hasNext();){
 				String product_id = iter.next();
 				query = "update be_in_stock set stock=stock-" + product_list.get(product_id)
@@ -152,6 +170,15 @@
 				System.out.println(query);
 				pstmt = conn.prepareStatement(query);
 				pstmt.executeUpdate();
+				pstmt.close();
+				
+				
+				query = "insert into included values('" + product_id + "', '" + (Integer.parseInt(last_order_number) + 1) + "',' " 
+				+ product_list.get(product_id) + "')";
+				pstmt = conn.prepareStatement(query);
+				pstmt.executeUpdate();
+				pstmt.close();
+				
 				conn.commit();
 			}
 			
