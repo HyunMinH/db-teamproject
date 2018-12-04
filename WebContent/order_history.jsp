@@ -38,7 +38,7 @@
 	
 
 	pstmt = conn.prepareStatement(query);
-	rs = pstmt.executeQuery();
+	rs = pstmt.executeQuery(); 
 	
 	
 	out.println("<table border=\"1\">");

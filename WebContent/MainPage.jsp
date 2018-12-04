@@ -129,15 +129,16 @@ $(document).ready(function(){
  <script>
  function searchProductWithName(){
 	 var product_name = document.getElementById('product_name_input').value
-	 document.form3.action = "product_detail.jsp?product_id=" + product_name;
+	 console.log(product_name);
+	 document.form3.action = "product_detail.jsp?product_name=" + product_name;
  	 document.form3.submit();
  }
  </script>
 
 <% 
-	out.println("<form name=\"form3\" action=\"POST\"");
+	out.println("<form name=\"form3\" action=\"POST\"/>");
 	out.println("검색할 상품 이름 : <input id=\"product_name_input\" type=\"text\" name=\"product_name\"/>");
-	out.println("<input type=\"button\" onclick=\"searchProductWithName\"/>");
+	out.println("<input type=\"button\" onclick=\"searchProductWithName()\" value=\"검색\" />");
 	out.println("</form>");
 %>
 

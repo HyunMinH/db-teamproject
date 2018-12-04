@@ -60,12 +60,18 @@
 	
 	out.println("</table>");
 	
+	out.println("<form action=\"order.jsp?" + request.getParameter("user_id") + "\" action=\"POST\" />");
+	out.println("<input type=\"submit\" value=\"구입하기\"/>");
+	out.println("</form>");
 	
 	pstmt.close();
 	
 	
 %>
 
+<%
+	
+%>
 
 <%
 	conn.close();
