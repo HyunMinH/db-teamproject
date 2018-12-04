@@ -34,13 +34,54 @@
 	
 	String product_id = request.getParameter("product_id"); //여기에 product id를 받아 옵니다!
 	
-	query = "insert into contained VALUES('"
-			+user_id
-			+"', '"
-			+product_id
-			+"', "
-			+numOfProduct
-			+")";
+	query = "select product_id from contained where user_id = '"+user_id+"'";
+	
+	System.out.println(query);
+	pstmt = conn.prepareStatement(query);
+	rs = pstmt.executeQuery();
+	
+	int i = 1;
+	
+	boolean newProduct = true;
+	
+	while(rs.next())
+	{
+		if(rs.getString(1).equals(product_id))
+		{
+			newProduct = false;
+			System.out.println("here!!!!!!" +rs.getString(1));
+			break;
+		}
+		
+		i++;
+	}
+	
+	
+	if(newProduct == true)
+	{
+		query = "insert into contained VALUES('"
+				+user_id
+				+"', '"
+				+product_id
+				+"', "
+				+numOfProduct
+				+")";
+	}
+	
+	else
+	{
+		query = "select item_num from contained where user_id = '"+ user_id +"' and product_id = '"+product_id+"';";
+		
+		System.out.println(query);
+		pstmt = conn.prepareStatement(query);
+		rs = pstmt.executeQuery();
+		
+		rs.next();
+		numOfProduct+=Integer.parseInt(rs.getString(1));
+		
+		query = "update contained set item_num = item_num + "+Integer.parseInt(rs.getString(1)) + " where product_id = '"+product_id+"' and user_id = '"+user_id+"';";
+	}
+	
 	
 	System.out.println(query);
 	
