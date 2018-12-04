@@ -34,39 +34,50 @@
 	pstmt = conn.prepareStatement(idQ);
 	rs = pstmt.executeQuery();
 	
-	rs.next();
-	
-	String password = rs.getString(1);
-	
-	if(password.equals(request.getParameter("pw")))
+	if (rs.next())
 	{
-		loginSuccess = true;
+		
+		String password = rs.getString(1);
+		
+		if(password.equals(request.getParameter("pw")))
+		{
+			loginSuccess = true;
+		}
+		
+		
+		if(loginSuccess == true)
+		{
+			out.println("Login succedded");
+			response.sendRedirect("MainPage.jsp?id=" + id);
+		}
 	}
 	
-	if(loginSuccess == true)
+	String query = "select count(*) from customer where id = '"
+			+ id
+			+ "'";
+	
+	pstmt = conn.prepareStatement(query);
+	rs = pstmt.executeQuery();
+	
+	ResultSetMetaData rsmd = rs.getMetaData();
+	
+	rs.next();
+	
+	if(rs.getString(1).equals("0"))
 	{
-		out.println("Login succedded");
-		response.sendRedirect("MainPage.jsp?id=" + id);
+		out.println("<script>alert('There is no matching ID');</script>");
+		
 	}
 	
 	else
 	{
-		out.println("Login failed");
-		
-		out.println(rs);
-		out.println("rs: "+rs);
-		
-		out.println("id: "+id);
-		out.println("pw: "+password);
-		
+		out.println("<script>alert('Please check your password');</script>");
 	}
-	
-	
-	
+
 %>
 
-	
+<%
 
- %>
+%>
 </body>
 </html>

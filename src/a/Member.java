@@ -17,18 +17,101 @@ public class Member {
 	 * | shinsegae_point 
 	 * | spocket*/
 	
-	public String id = null;
-	public String password= null;
-	public String first_name= null;
-	public String last_name= null;
-	public String address= null;
-	public String age= null;
-	public String job= null;
-	public String sex= null;
-	public String phone_number= null;
-	public String email= null;
-	public String smoney;
-	public String shinsegae_point;
-	public String spocket;
+	public String id;
+	public String password;
+	public String first_name;
+	public String last_name;
+	public String address;
+	public String age;
+	public String job;
+	public String sex;
+	public String phone_number;
+	public String email;
+	public int smoney = 0;
+	public int shinsegae_point = 0;
+	public int spocket = 0;
 	
+	public String makeQ()
+	{
+		String query = "INSERT INTO customer VALUES"
+				+ "('"
+				+ id + "','"
+				+ password + "'";
+		
+		if(first_name.isEmpty())
+		{
+			query = query + ",NULL";
+		}
+		else
+		{
+			query = query + ",'" + first_name + "'";
+		}
+		
+		if(last_name.isEmpty())
+		{
+			query = query + ",NULL";
+		}
+		else
+		{
+			query = query + ",'" + last_name + "'";
+		}
+		
+		if(address.isEmpty())
+		{
+			query = query + ",NULL";
+		}
+		else
+		{
+			query = query + ",'" + address + "'";
+		}
+		
+		if(age.isEmpty())
+		{
+			query = query + ",NULL";
+		}
+		else
+		{
+			query = query + ",'" + age + "'";
+		}
+		
+		if(job.isEmpty())
+		{
+			query = query + ",NULL";
+		}
+		else
+		{
+			query = query + ",'" + job + "'";
+		}
+		if(sex.isEmpty())
+		{
+			query = query + ",NULL";
+		}
+		else
+		{
+			query = query + ",'" + sex + "'";
+		}		
+		if(phone_number.isEmpty())
+		{
+			query = query + ",NULL";
+		}
+		else
+		{
+			query = query + ",'" + phone_number + "'";
+		}			
+		if(email.isEmpty())
+		{
+			query = query + ",NULL";
+		}
+		else
+		{
+			query = query + ",'" + email + "'";
+		}			
+
+		query = query + "," + smoney;
+		query = query + "," + shinsegae_point;
+		query = query + "," + spocket + ");";
+		
+		
+		return query;
+	}
 }
