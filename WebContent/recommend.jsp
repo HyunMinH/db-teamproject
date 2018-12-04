@@ -107,7 +107,8 @@
 		
 	out.println("<br>");
 
-		
+	query = "select name from item where product_id = '"+r1+"'";
+
 		
 %>
 
