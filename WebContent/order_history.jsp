@@ -30,7 +30,7 @@
 
 <%
 
-	String query = "select item.name, shipping_destination, order_date, included_num, retailer.name, price "
+	String query = "select item.name, shipping_destination, order_date, included_num, retailer.name, price, order_number "
 		+ " from ((order_history natural join included) natural join order_into) natural join item, retailer"
 		+ " where customer_id='" + (String)session.getAttribute("id") + "' and retailer.retailer_id = order_into.retailer_id";
 
@@ -39,30 +39,53 @@
 	rs = pstmt.executeQuery();
 	
 	
-	out.println("<table border=\"1\">");
 	
 	ResultSetMetaData rsmd = rs.getMetaData();
 	int cnt = rsmd.getColumnCount();
 	
-	out.println("<th>"+ "  날짜  " +"</th>");
-	out.println("<th>"+ "  상품 이름  " +"</th>");
-	out.println("<th>"+ "  구매 갯수  " +"</th>");
-	out.println("<th>"+ "  개당 가격  " +"</th>");
-	out.println("<th>"+ " 배달 매장 이름  " +"</th>");
-	out.println("<th>"+ "  배송 도착지 " +"</th>");
+	String temp ="";
+	boolean first = true;
 	
-	while(rs.next()){
-		out.println("<tr>");
+	while(rs.next())
+	{
+
+		String order_number = rs.getString(7);
+		System.out.println(order_number);
+		
+		if(temp.equals(order_number) == false)
+		{
+			if(first == false)
+				out.println("</table>");
+			out.println("<br>");
+			out.println("<table border=\"1\">");
+			first = false;
+		}
+		
+		out.println("<th>"+ "  배송 번호 " +"</th>");
+		out.println("<th>"+ "  날짜  " +"</th>");
+		out.println("<th>"+ "  상품 이름  " +"</th>");
+		out.println("<th>"+ "  구매 갯수  " +"</th>");
+		out.println("<th>"+ "  개당 가격  " +"</th>");
+		out.println("<th>"+ " 배달 매장 이름  " +"</th>");
+		out.println("<th>"+ "  배송 도착지 " +"</th>");
+			
+			out.println("<tr>");
+
+		out.println("<td>"+rs.getString(7)+"</td>"); // 주문일자 
 		out.println("<td>"+rs.getString(3)+"</td>"); // 주문일자 
 		out.println("<td>"+rs.getString(1)+"</td>"); // 상품 이름 
 		out.println("<td>"+rs.getString(4)+"</td>"); // 갯수 
 		out.println("<td>"+rs.getString(6)+"</td>"); // 가격 
 		out.println("<td>"+rs.getString(5)+"</td>"); // 배달 매장 이름 
 		out.println("<td>"+rs.getString(2)+"</td>"); // 배송 도착지 
+			
+			
 		out.println("</tr>");
+			
+		
+		temp = order_number;
 	}
 	
-	out.println("</table>");
 	
 	
 	pstmt.close();
