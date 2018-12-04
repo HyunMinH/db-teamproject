@@ -30,7 +30,8 @@
 	
 <%
 	System.out.println(request.getParameter("retailer_name"));
-%>		
+%>
+
 <%
 	String query = "select * "
 		+ " from retailer"
@@ -45,40 +46,14 @@
 	
 %>
 
-<% 
-	query = "SELECT * "
-		+ " from be_in_stock natural join item "
-	+ " where retailer_id='" + retailer_id  + "'";
-	
-	System.out.println(query);
-	pstmt = conn.prepareStatement(query);
-	rs = pstmt.executeQuery();
-	
-	out.println("<form action = \"stock_add.jsp?retailer_id=" + retailer_id +"\" method=\"POST\">");
-	
-	out.println("<table border=\"1\">");
-	ResultSetMetaData rsmd = rs.getMetaData();
-	int cnt = rsmd.getColumnCount();
-	
-	out.println("<th>"+ "  이름  " +"</th>");
-	out.println("<th>"+ "  재고  " +"</th>");
-	out.println("<th>"+ "  재고 증가량  " +"</th>");
-	
-	while(rs.next()){
-		out.println("<tr>");
-		out.println("<td>"+rs.getString(5)+"</td>");
-		out.println("<td>"+rs.getString(3)+"</td>");
-		out.println("<td>" + "<input type=\"text\"" + "name=\"product_" + rs.getString(1) +  "\"" + "/>" + "</td>");
-		out.println("</tr>");
-	}
-	
-	out.println("</table>");
-	out.println("<input type=\"submit\" value=\"주문\" />");
-	out.println("</form>");
-	pstmt.close();
-	
-%>
+<form action="stock.jsp?retailer_id=<%=retailer_id%>" method="post">
+	<input type="submit" value="재고관리하러가기"/>
+</form>
 
+<form action="sales.jsp?retailer_id=<%=retailer_id%>" method="post">
+	<input type="submit" value="매출 보기"/>
+</form>
+		
 
 <%
 	conn.close();

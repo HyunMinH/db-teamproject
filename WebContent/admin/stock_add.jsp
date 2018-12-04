@@ -70,6 +70,8 @@
 				pstmt.close();
 			}
 		}
+		
+		response.sendRedirect("stock_success.jsp?retailer_id=" + request.getParameter("retailer_id"));
 	}catch(SQLException e){
 		e.printStackTrace();
 	}
