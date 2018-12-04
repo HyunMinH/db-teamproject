@@ -77,9 +77,9 @@
 		rs = pstmt.executeQuery();
 		
 		rs.next();
-		numOfProduct+=Integer.parseInt(rs.getString(1));
+		//numOfProduct += Integer.parseInt(rs.getString(1));
 		
-		query = "update contained set item_num = item_num + "+Integer.parseInt(rs.getString(1)) + " where product_id = '"+product_id+"' and user_id = '"+user_id+"';";
+		query = "update contained set item_num = item_num + "+ numOfProduct + " where product_id = '"+product_id+"' and user_id = '"+user_id+"';";
 	}
 	
 	
