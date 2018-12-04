@@ -45,13 +45,70 @@
 	pstmt.close();
 	*/
 	
+	/*price 
+	| product_id 
+	| name      
+	| weight 
+	| sales_volume 
+	| country_of_origin 
+	| shelf_life 
+	| calorie 
+	| carbohydrate 
+	| fat  
+	| protein 
+	| sugars 
+	| saturated_fat 
+	| trans_fat 
+	| cholesterol 
+	| category_id 
+	| producer_id*/
+	
+	String query = "select * from item where name = '" + request.getParameter("product_name") + "';";
+	
+	System.out.println(query);
+	pstmt = conn.prepareStatement(query);
+	rs = pstmt.executeQuery();
+	
+	ResultSetMetaData rsmd = rs.getMetaData();
+	int cnt = rsmd.getColumnCount();
+		
+	rs.next();
+	
+	out.println("<h4>" +  "가격" +" : " + rs.getString(1)+"원" +   "<h4/>");
+	out.println("<h4>" +  "등록번호"+" : " + rs.getString(2) + "<h4/>");
+	out.println("<h4>" +  "제품명"+" : " + rs.getString(3)  + "<h4/>");
+	out.println("<h4>" +  "중량"+" : " + rs.getString(4) +"g "+ "<h4/>");
+	out.println("<h4>" +  "부피"+" : " + rs.getString(5)+"mL"  +"<h4/>");
+	out.println("<h4>" + "원산지"+" : " + rs.getString(6)  + "<h4/>");
+	out.println("<h4>" + "유통기한"+" : " + rs.getString(7)+"까지"  +"<h4/>");
+	out.println("<h4>" + "칼로리"+" : " + rs.getString(8)+"kcal"  + "<h4/>");
+	out.println("<h4>" + "탄수화물"+" : " + rs.getString(9) +"g"  + "<h4/>");
+	out.println("<h4>" + "지방"+" : " + rs.getString(10) + "g" +"<h4/>");
+	out.println("<h4>" + "단백질"+" : " + rs.getString(11)+ "g" + "<h4/>");
+	out.println("<h4>" + "당류"+" : " + rs.getString(12)+ "g"  +"<h4/>");
+	out.println("<h4>" + "포화지방"+" : " + rs.getString(13)+ "g"  + "<h4/>");
+	out.println("<h4>" + "트랜스지방"+" : " + rs.getString(14) + "g" +"<h4/>");
+	out.println("<h4>" + "콜레스테롤"+" : " + rs.getString(15) + "g" +"<h4/>");
+	out.println("<h4>" + "카테고리"+" : " + rs.getString(16)+ " (대분류-소분류 순서)"  + "<h4/>" );
+	out.println("<h4>" + "제조자"+" : " + rs.getString(17) + "<h4/>");
+
+	String product_id = rs.getString(2);
 %>
+
+ 
+<form action = "product_detail_handling.jsp?product_id=<%=product_id%>">
+		<h2>주문수량을 선택하세요 </h2>
+
+ <h4>주문수량</h4>: <Input type="number" name = num>
+
+	<br/>
+</form>
 
 <% 
-	
-	
-%>
 
+
+
+%>
 
 <%
 	conn.close();
