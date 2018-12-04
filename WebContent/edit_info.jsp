@@ -39,33 +39,33 @@
 	pstmt = conn.prepareStatement(query);
 	rs = pstmt.executeQuery();
 	
-	out.println("<form action=\"edited.jsp\" method=\"POST\"");
+	out.println("<form action=\"edited.jsp?user_id=" + request.getParameter("user_id") + "\" method=\"POST\" >");
 	
-	out.println("password : <input type=\"text\" name=\"pw\"/>");
+	out.println("password : <input type=\"text\" name=\"user_password\"/>");
 	
-	out.println("first_name : <input type=\"text\" name=\"first_name\"/>");
+	out.println("first_name : <input type=\"text\" name=\"user_first_name\"/>");
 	
-	out.println("last_name : <input type=\"text\" name=\"last_name\"/>");
+	out.println("last_name : <input type=\"text\" name=\"user_last_name\"/>");
 	
 	
-	out.println("address : <select name=\"address\"");
+	out.println("address : <select name=\"user_address\"");
 	while(rs.next()){
 		out.println("   <option value=\""+ rs.getString(1) +"\">"+ rs.getString(1) +"</option>");
 	}
 	out.println("</select>");
 	
-	out.println("age : <input type=\"text\" name=\"age\"/>");
+	out.println("age : <input type=\"text\" name=\"user_age\"/>");
 	
-	out.println("sex : <select name=\"sex\"/>");
+	out.println("sex : <select name=\"user_sex\"/>");
 	out.println("<option value=F>F</option>");
 	out.println("<option value=M>M</option>");
 	out.println("</select>");
 	
-	out.println("phone_number : <input type=\"text\" name=\"phone_number\"/>");
+	out.println("phone_number : <input type=\"text\" name=\"user_phone_number\"/>");
 	
-	out.println("email : <input type=\"text\" name=\"email\"/>");
+	out.println("email : <input type=\"text\" name=\"user_email\"/>");
 	
-	out.println("<input type=\"submit\" value=\"수정하기\"");
+	out.println("<input type=\"submit\" value=\"수정하기\" />");
 	out.println("</form>");
 	
 	pstmt.close();
