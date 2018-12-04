@@ -68,7 +68,7 @@
 		pstmt.executeUpdate();
 		
 		pstmt.close();
-		response.sendRedirect("edit_success.jsp");
+		
 	}catch(SQLException e){
 		e.printStackTrace();
 	}
@@ -78,6 +78,7 @@
 
 <%
 	conn.close();
+	response.sendRedirect("edit_success.jsp");
 %>
 
 </body>

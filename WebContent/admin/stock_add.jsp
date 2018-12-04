@@ -23,6 +23,7 @@
 	ResultSet rs;
 	Class.forName("com.mysql.jdbc.Driver");
 	conn = DriverManager.getConnection(url, user, pass);
+	conn.setAutoCommit(false);
 %>
  
  <%
@@ -53,6 +54,7 @@
 	}
 	
 	try{
+		boolean first =true;
 		for(Iterator<String> iter=product_list.keySet().iterator(); iter.hasNext();){
 			String product_id = iter.next();
 			
@@ -70,9 +72,11 @@
 				pstmt.close();
 			}
 		}
+		conn.commit();
 		
-		response.sendRedirect("stock_success.jsp?retailer_id=" + request.getParameter("retailer_id"));
-	}catch(SQLException e){
+	}
+	catch(SQLException e){
+		conn.rollback();
 		e.printStackTrace();
 	}
 	
@@ -81,6 +85,8 @@
 
 <%
 	conn.close();
+	response.sendRedirect("stock_success.jsp?retailer_id=" + request.getParameter("retailer_id"));
+
 %>
 
 </body>

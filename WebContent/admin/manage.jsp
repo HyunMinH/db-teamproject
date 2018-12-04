@@ -54,6 +54,9 @@
 	<input type="submit" value="매출 보기"/>
 </form>
 		
+<form action="index.jsp" method="post">
+	<input type="submit" value="지점 선택하기"/>
+</form>		
 
 <%
 	conn.close();
