@@ -24,24 +24,23 @@
 	conn = DriverManager.getConnection(url, user, pass);
 %>
  <%
- 	out.println("<h2>" + request.getParameter("user_id") + " 구매 이력  </h2>");
+ 	out.println("<h2>" + (String)session.getAttribute("id") + " 구매 이력  </h2>");
  	
  %>
-
 
 <%
 
 	String query = "select item.name, shipping_destination, order_date, included_num, retailer.name, price "
 		+ " from ((order_history natural join included) natural join order_into) natural join item, retailer"
-		+ " where customer_id='" + request.getParameter("user_id") + "' and retailer.retailer_id = order_into.retailer_id";
+		+ " where customer_id='" + (String)session.getAttribute("id") + "' and retailer.retailer_id = order_into.retailer_id";
 
-	
 
 	pstmt = conn.prepareStatement(query);
 	rs = pstmt.executeQuery();
 	
 	
 	out.println("<table border=\"1\">");
+	
 	ResultSetMetaData rsmd = rs.getMetaData();
 	int cnt = rsmd.getColumnCount();
 	
@@ -54,12 +53,12 @@
 	
 	while(rs.next()){
 		out.println("<tr>");
-		out.println("<td>"+rs.getString(3)+"</td>");
-		out.println("<td>"+rs.getString(1)+"</td>");
-		out.println("<td>"+rs.getString(4)+"</td>");
-		out.println("<td>"+rs.getString(6)+"</td>");
-		out.println("<td>"+rs.getString(5)+"</td>");
-		out.println("<td>"+rs.getString(2)+"</td>");
+		out.println("<td>"+rs.getString(3)+"</td>"); // 주문일자 
+		out.println("<td>"+rs.getString(1)+"</td>"); // 상품 이름 
+		out.println("<td>"+rs.getString(4)+"</td>"); // 갯수 
+		out.println("<td>"+rs.getString(6)+"</td>"); // 가격 
+		out.println("<td>"+rs.getString(5)+"</td>"); // 배달 매장 이름 
+		out.println("<td>"+rs.getString(2)+"</td>"); // 배송 도착지 
 		out.println("</tr>");
 	}
 	

@@ -38,7 +38,7 @@
 	pstmt = conn.prepareStatement(query);
 	rs = pstmt.executeQuery();
 	
-	out.println("<form action=\"category_small.jsp?user_id=" + request.getParameter("user_id") +"\" method=\"POST\">");
+	out.println("<form action=\"category_small.jsp?user_id=" + (String)session.getAttribute("id") +"\" method=\"POST\">");
 	out.println("Large Category : <select id=\"large_category\" name=\"large_category\">");
 	
 	out.print("<option value=\"default\">---selected---</option>");
