@@ -36,6 +36,8 @@
 		 document.form1.action = "edit_info.jsp?user_id=" + user_id;
 	 }else if(action == 4){
 		 document.form1.action = "recommend.jsp?user_id=" + user_id;
+	 }else if(action == 5){
+		 document.form1.action = "category_large.jsp?user_id=" + user_id;
 	 }
 	 
 	 document.form1.submit();
@@ -62,6 +64,7 @@
  	out.println("<input type=\"button\" value=\"장바구니\" onclick=\"redirectNextPage(2,'" + user_id + "')\"/>");
  	out.println("<input type=\"button\" value=\"정보 수정\" onclick=\"redirectNextPage(3,'" + user_id + "')\"/>");
  	out.println("<input type=\"button\" value=\"추천상품\" onclick=\"redirectNextPage(4,'" + user_id + "')\"/>");
+ 	out.println("<input type=\"button\" value=\"카테고리로 검색\" onclick=\"redirectNextPage(5,'" + user_id + "')\"/>");
  	out.println("</form>");
 
  	
@@ -71,30 +74,8 @@
  
  <br>
  	
- <script>
-$(document).ready(function(){
-	$('#large_category').on('change', function() {	
-		let selector = $(this).val();
-		console.log(selector);
-		$("#middle_category option").each(function(item){
-			console.log($(this));
-			if ($(this).data("tag") != selector){
-				$(this).hide() ; 
-			}else{
-				$(this).show();
-			}
-		});
-		
-		
-		$("#middle_category option:not([hidden])").filter(
-				function(){ return $(this).data("tag") == selector}
-				).first().prop('selected',true);
-	});	
-});
- </script>
-
 <%
-
+	/*
 	String query = "select large_category, count(*) "
 		+ " from category group by large_category";
 
@@ -114,10 +95,11 @@ $(document).ready(function(){
 	out.println("</select>");
 
 	pstmt.close();
+	*/
 %>
 
 <%
-
+	/*
 	query = "select * "
 		+ " from category";
 
@@ -138,30 +120,14 @@ $(document).ready(function(){
 	out.println("</form>");
 
 	pstmt.close();
+	*/
 %>
 
- <script>
- function searchProductWithName(user_id){
-	 var product_name = document.getElementById('product_name_input').value
-	 console.log(product_name);
-	 console.log(user_id);
-	 document.form3.action = "product_detail.jsp?customer_id=" + user_id + "&product_id=" + product_name;
-	  document.form3.submit();
- }
- </script>
 
 	<form name="form3" action="product_detail.jsp?user_id=<%=user_id%>" method="POST">
 		검색할 상품 이름 : <input id="product_name_input" type="text" name="product_name"/>
 		<input type="submit"  value="검색" />
 	</form>
-<% 
-/*
-	out.println("<form name=\"form3\" action=\"POST\"/>");
-	out.println("검색할 상품 이름 : <input id=\"product_name_input\" type=\"text\" name=\"product_name\"/>");
-	out.println("<input type=\"button\" onclick=\"searchProductWithName('" + user_id + "')\" value=\"검색\" />");
-	out.println("</form>");
-	*/
-%>
 
 
 <%
