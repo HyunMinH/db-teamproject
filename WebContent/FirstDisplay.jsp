@@ -39,6 +39,11 @@
 		
 		String password = rs.getString(1);
 		
+/* 		if(password.equals("admin") &&id.equals("admin"))
+		{
+			response.sendRedirect("index.jsp");
+		} */
+		
 		if(password.equals(request.getParameter("pw")))
 		{
 			loginSuccess = true;
