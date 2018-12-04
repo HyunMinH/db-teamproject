@@ -25,7 +25,7 @@
 %>
 
  <%
- 	out.println("<h2>" + request.getParameter("user_id") + " 의 장바구니 </h2>");
+ 	out.println("<h2>" + (String)session.getAttribute("id") + " 의 장바구니 </h2>");
  	
  %>
 
@@ -34,7 +34,7 @@
 
 	String query = "select name, item_num, price, product_id"
 		+ " from (shopping_bag natural join contained) natural join item"
-		+ " where user_id='" + request.getParameter("user_id") + "'";
+		+ " where user_id='" + (String)session.getAttribute("id") + "'";
 
 	
 
@@ -73,7 +73,7 @@
 <%
 	query = "select address"
 		+ " from customer "
-		+ " where id='" + request.getParameter("user_id") + "'";
+		+ " where id='" + (String)session.getAttribute("id") + "'";
 
 
 	pstmt = conn.prepareStatement(query);
@@ -85,7 +85,7 @@
 	pstmt.close();
 %>
 
-<form action="order.jsp?user_id=<%=request.getParameter("user_id")%><%=product_list%>&shipping_destination=<%=shipping_destination%>" method="POST">
+<form action="order.jsp?user_id=<%=(String)session.getAttribute("id")%><%=product_list%>&shipping_destination=<%=shipping_destination%>" method="POST">
 	<input type="submit" value="구입하기"/>
 </form>
 

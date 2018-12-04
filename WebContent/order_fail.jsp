@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h2>order filed...</h2>
+	<h2>order failed...</h2>
 </body>
 </html>

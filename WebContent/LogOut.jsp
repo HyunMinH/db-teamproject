@@ -11,7 +11,6 @@
 	session.invalidate();
 
 	response.sendRedirect("FirstDisplay.html");
-
 %>
 </body>
 </html>

@@ -134,10 +134,10 @@
 	try{
 		if(can_buy == false){
 			conn.close();
-			response.sendRedirect("order_fail.jsp?user_id=" + request.getParameter("customer_id"));
+			response.sendRedirect("order_fail.jsp?user_id=" + (String)session.getAttribute("id"));
 		}else{
 			/*	order_history 생	성	*/
-			query = "insert into order_history values('" +  request.getParameter("user_id")
+			query = "insert into order_history values('" +  (String)session.getAttribute("id")
 			+ "', '" + request.getParameter("shipping_destination") + "', '"
 			+ new SimpleDateFormat("yyyy-MM-dd").format(new Date()) + "', '" 
 			+ (Integer.parseInt(last_order_number) + 1) + "')";
@@ -182,7 +182,7 @@
 				conn.commit();
 			}
 			
-			query = "delete from contained where user_id='" + request.getParameter("user_id") + "'";
+			query = "delete from contained where user_id='" + (String)session.getAttribute("id") + "'";
 			System.out.println(query);
 			pstmt = conn.prepareStatement(query);
 			pstmt.executeUpdate();
@@ -190,7 +190,7 @@
 			conn.commit();
 			pstmt.close();
 			conn.close();
-			response.sendRedirect("order_success.jsp?user_id=" + request.getParameter("customer_id"));
+			response.sendRedirect("order_success.jsp?user_id=" + (String)session.getAttribute("id"));
 		}
 	}catch(SQLException e){
 		e.printStackTrace();

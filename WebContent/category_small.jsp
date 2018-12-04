@@ -39,7 +39,7 @@
 	pstmt = conn.prepareStatement(query);
 	rs = pstmt.executeQuery();
 	
-	out.println("<form action=\"product.jsp?user_id=" + request.getParameter("user_id")+ "&large_category=" + request.getParameter("large_category") +"\" method=\"POST\">");
+	out.println("<form action=\"product.jsp?user_id=" + (String)session.getAttribute("id")+ "&large_category=" + request.getParameter("large_category") +"\" method=\"POST\">");
 	out.println("middle_category : <select id=\"middle_category\" name=\"middle_category\">");
 	
 	while(rs.next()){
