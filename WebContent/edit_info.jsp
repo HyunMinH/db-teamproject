@@ -24,7 +24,7 @@
 	conn = DriverManager.getConnection(url, user, pass);
 %>
  <%
- 	out.println("<h2>" + request.getParameter("user_id") + " 회원 정보 수정  </h2>");
+ 	out.println("<h2>" + (String)session.getAttribute("id") + " 회원 정보 수정  </h2>");
  	
  %>
 
@@ -39,7 +39,7 @@
 	pstmt = conn.prepareStatement(query);
 	rs = pstmt.executeQuery();
 	
-	out.println("<form action=\"edited.jsp?user_id=" + request.getParameter("user_id") + "\" method=\"POST\" >");
+	out.println("<form action=\"edited.jsp?user_id=" + (String)session.getAttribute("id") + "\" method=\"POST\" >");
 	
 	out.println("password : <input type=\"text\" name=\"user_password\"/>");
 	

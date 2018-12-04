@@ -26,7 +26,7 @@
 	conn = DriverManager.getConnection(url, user, pass);
 %>
  <%
- 	out.println("<h2>" + request.getParameter("user_id") + " 회원 정보 수정  </h2>");
+ 	out.println("<h2>" + (String)session.getAttribute("id") + " 회원 정보 수정  </h2>");
  	
  %>
 
@@ -41,7 +41,7 @@
 		String key = parameter_names.nextElement();
 		
 		/*	수정할 user 아이템에 관련된 attribute이면		*/
-		if(key.contains("user_") && key.equals("user_id") == false){
+		if(key.contains("user_") && key.equals((String)session.getAttribute("id")) == false){
 			System.out.println(key);
 			String attr_name = key.substring("user_".length());
 			String attr_value = request.getParameter(key);
@@ -58,7 +58,7 @@
 	}
 	
 	
-	query = query.substring(0, query.length()-1) + " where id='" + request.getParameter("user_id") + "'";
+	query = query.substring(0, query.length()-1) + " where id='" + (String)session.getAttribute("id") + "'";
 	System.out.println(query);
 	
 	

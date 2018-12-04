@@ -86,8 +86,11 @@
 	
 	
 	pstmt.close();
+	
+	response.sendRedirect("recommend.jsp");
+	
+	
 %>
-
 
 <%
 	conn.close();
