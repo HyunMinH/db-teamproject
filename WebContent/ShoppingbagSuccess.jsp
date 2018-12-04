@@ -8,8 +8,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h2>  </h2>
-	<br>
+
 <%
 	String serverIP = "localhost";
 	String portNum = "3306";
@@ -22,35 +21,16 @@
 	ResultSet rs;
 	Class.forName("com.mysql.jdbc.Driver");
 	conn = DriverManager.getConnection(url, user, pass);
+	
 %>
+
 
 <%
- 	int numOfProduct = Integer.parseInt(request.getParameter("num"));
-	
-	System.out.println(numOfProduct);
-	
-	String user_id = (String)session.getAttribute("id");
-	String query;
-	
-	String product_id = request.getParameter("product_id"); //여기에 product id를 받아 옵니다!
-	
-	query = "insert into contained VALUES('"
-			+user_id
-			+"', '"
-			+product_id
-			+"', "
-			+numOfProduct
-			+")";
-	
-	System.out.println(query);
-	
-	pstmt = conn.prepareStatement(query);
-	pstmt.executeUpdate();
 
-	response.sendRedirect("ShoppingbagSuccess.jsp");
+	out.println("alert(\"shoppingBag successfully adjusted\");");
+	response.sendRedirect("MainPage.jsp");
 %>
 
 
-
-
-
+</body>
+</html>

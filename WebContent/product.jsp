@@ -48,7 +48,7 @@
 
  <script>
  function redirectProductDetail(product_name){
-	 document.form1.action = "product_detail.jsp?product_name=" + product_name;
+	 document.form1.action = "product_detail.jsp?user_id=<%=(String)session.getAttribute("id")%>&product_name=" + product_name;
 	 document.form1.submit();
  }
  </script>

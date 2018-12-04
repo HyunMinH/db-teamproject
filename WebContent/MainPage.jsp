@@ -45,8 +45,18 @@
  	<br>
  <%
  	//String user_id = "id1";
- 	String user_id = request.getParameter("id");
+/*  	String user_id = request.getParameter("id");
+ */ 
  
+ 	String user_id;
+
+	 user_id = (String)session.getAttribute("id");            // request에서 id 파라미터를 가져온다
+
+	 if(user_id==null||user_id.equals(""))
+	 {                       // id가 Null 이거나 없을 경우
+	 	response.sendRedirect("loginform.jsp");    // 로그인 페이지로 리다이렉트 한다.
+	 }
+	 
  	out.println("<form name=\"form1\" method=\"POST\">");
  	out.println("<input type=\"button\" value=\"구매내역\" onclick=\"redirectNextPage(1,'" + user_id + "')\"/>");
  	out.println("<input type=\"button\" value=\"장바구니\" onclick=\"redirectNextPage(2,'" + user_id + "')\"/>");
@@ -87,7 +97,7 @@ $(document).ready(function(){
 	pstmt = conn.prepareStatement(query);
 	rs = pstmt.executeQuery();
 	
-	out.println("<form action=\"product.jsp\" method=\"POST\">");
+	out.println("<form action=\"product.jsp?user_id=" + user_id +"\" method=\"POST\">");
 	out.println("Large Category : <select id=\"large_category\" name=\"large_category\">");
 	
 	out.print("<option value=\"default\">---selected---</option>");

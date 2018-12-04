@@ -53,7 +53,11 @@
 		if(loginSuccess == true)
 		{
 			out.println("Login succedded");
-			response.sendRedirect("MainPage.jsp?id=" + id);
+/* 			response.sendRedirect("MainPage.jsp?id=" + id);
+ */			
+			session.setAttribute("id", id);                 // 세션에 "id" 이름으로 id 등록
+			response.sendRedirect("MainPage.jsp");               // 로그인 성공 메인페이지 이동
+			
 		}
 	}
 	
