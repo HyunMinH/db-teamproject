@@ -52,20 +52,9 @@
 	%>
 
 	<%
-		/*	마지막 order_number를 가져옴.	*/
-		String query = "select order_number" + " from order_history order by cast(order_number as unsigned ) desc";
-
-		pstmt = conn.prepareStatement(query);
-		rs = pstmt.executeQuery();
-
-		rs.next();
-		String last_order_number = rs.getString(1);
-		pstmt.close();
-	%>
-	<%
 		/*	address를 가지고 retailer의 id를 가져오기 	*/
-		query = "select retailer_id from retailer where address='" + request.getParameter("shipping_destination")
-				+ "'";
+		String query = "select retailer_id from retailer where address='"
+				+ request.getParameter("shipping_destination") + "'";
 		pstmt = conn.prepareStatement(query);
 		rs = pstmt.executeQuery();
 
@@ -131,24 +120,31 @@
 			conn.close();
 			response.sendRedirect("order_fail.jsp?user_id=" + (String) session.getAttribute("id"));
 		} else {
-
 			try {
 				/*	order_history 생	성	*/
 				query = "insert into order_history values('" + (String) session.getAttribute("id") + "', '"
 						+ request.getParameter("shipping_destination") + "', '"
-						+ new SimpleDateFormat("yyyy-MM-dd").format(new Date()) + "', '"
-						+ (Integer.parseInt(last_order_number) + 1) + "')";
+						+ new SimpleDateFormat("yyyy-MM-dd").format(new Date()) + "', NULL)";
+				
 				System.out.println(query);
 
 				pstmt = conn.prepareStatement(query);
 				pstmt.executeUpdate();
 
+				query = "select order_number from order_history where customer_id='" + (String) session.getAttribute("id")
+				+ "' order by order_number desc";
+				
+				rs = pstmt.executeQuery(query);
+				rs.next();
+				String last_order_number = Integer.toString(rs.getInt(1));
+				System.out.println("order number : " + last_order_number);
+				
 				/*	order_into 생성  	*/
 				Calendar c = Calendar.getInstance();
 				c.setTime(new Date());
 				c.add(Calendar.HOUR, 2);
 
-				query = "insert into order_into values('" + (Integer.parseInt(last_order_number) + 1) + "', '"
+				query = "insert into order_into values('" + last_order_number + "', '"
 						+ retailer_id + "',' " + new SimpleDateFormat("yyyy-MM-dd").format(c.getTime()) + "')";
 
 				pstmt.executeUpdate(query);
@@ -157,12 +153,12 @@
 				for (iter = product_list.keySet().iterator(); iter.hasNext();) {
 					String product_id = iter.next();
 					query = "update be_in_stock set stock=stock-" + product_list.get(product_id)
-							+ " where product_id='" + product_id + "'";
+							+ " where product_id='" + product_id + "' and retailer_id='" + retailer_id + "'";
 					System.out.println(query);
 					pstmt.executeUpdate(query);
 
 					query = "insert into included values('" + product_id + "', '"
-							+ (Integer.parseInt(last_order_number) + 1) + "',' " + product_list.get(product_id)
+							+ last_order_number + "',' " + product_list.get(product_id)
 							+ "')";
 
 					pstmt.executeUpdate(query);
@@ -177,7 +173,7 @@
 				conn.commit();
 				conn.close();
 				response.sendRedirect("order_success.jsp?user_id=" + (String) session.getAttribute("id"));
-			
+
 			} catch (SQLException e) {
 				if (conn != null) {
 					try {
@@ -186,10 +182,10 @@
 						e.printStackTrace();
 					}
 				}
-				
+				e.printStackTrace();
 				conn.close();
 				response.sendRedirect("order_fail.jsp?user_id=" + (String) session.getAttribute("id"));
-			
+
 			}
 
 		}
